@@ -59,7 +59,7 @@ hello
 Read Count Setelah: 13
 ```
 
-![Output ptest_rtest](search-ms:displayname=Search%20Results%20in%20Screenshots&crumb=Anyintegernumber%3A%3D16411%20OR%20System.Generic.String%3A16411&crumb=location:C%3A%5CUsers%5Ctyas%5COneDrive%5CPictures%5CScreenshots)
+![Output ptest_rtest](./screenshots/ptest_rtest_hello-outout.png)
 
 
 ## ⚠️ Kendala yang Dihadapi
