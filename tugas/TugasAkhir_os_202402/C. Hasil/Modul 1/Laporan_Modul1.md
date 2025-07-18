@@ -59,7 +59,7 @@ hello
 Read Count Setelah: 13
 ```
 
-![Output ptest_rtest](./screenshots/ptest_rtest_hello-outout.png)
+![Output ptest_rtest](./screenshots/output_ptest_rtest.png)
 
 
 ## ⚠️ Kendala yang Dihadapi
