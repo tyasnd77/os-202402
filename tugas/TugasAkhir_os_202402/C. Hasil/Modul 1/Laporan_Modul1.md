@@ -59,6 +59,9 @@ hello
 Read Count Setelah: 13
 ```
 
+![Output rtest](./screenshots/rtest_output.png)
+
+
 ## ⚠️ Kendala yang Dihadapi
 
 * Variabel readcount tidak dikenali di sys_read() → disebabkan karena belum dideklarasikan sebagai global. Solusi: dipindah ke bagian global sysfile.c atau sysproc.c, dan bila perlu dideklarasikan extern.
