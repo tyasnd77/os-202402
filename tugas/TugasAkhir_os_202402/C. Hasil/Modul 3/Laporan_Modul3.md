@@ -20,7 +20,7 @@ Modul 3 – Manajemen Memori Tingkat Lanjut (xv6-public x86)
 
 1. Copy-on-Write (CoW) pada `fork()` untuk menghindari duplikasi halaman memori yang tidak perlu.
 
-2.Shared Memory ala System V yang memungkinkan proses saling berbagi 1 halaman memori melalui kunci (`key`) dan reference count.
+2. Shared Memory ala System V yang memungkinkan proses saling berbagi 1 halaman memori melalui kunci (`key`) dan reference count.
 
 ---
 
