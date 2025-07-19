@@ -9,41 +9,43 @@
 **NIM**: 240202887
 
 **Modul yang Dikerjakan**:
-Modul 3
+Modul 3 – Manajemen Memori Tingkat Lanjut (xv6-public x86)
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
+* **Modul 3 – Manajemen Memori Tingkat Lanjut (xv6-public x86)**:
+  Modul ini berfokus pada pengembangan manajemen memori lanjutan pada xv6, meliputi dua fitur utama:
 
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+1. Copy-on-Write (CoW) pada `fork()` untuk menghindari duplikasi halaman memori yang tidak perlu.
+
+2.Shared Memory ala System V yang memungkinkan proses saling berbagi 1 halaman memori melalui kunci (`key`) dan reference count.
+
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+* Menambahkan `ref_count[]` di `vm.c` untuk melacak jumlah referensi setiap halaman fisik.
 
-### Contoh untuk Modul 1:
+* Menambahkan flag `PTE_COW` di `mmu.h`.
 
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
+* Membuat fungsi `cowuvm()` yang menggantikan `copyuvm()` saat `fork`.
+
+* Menangani page fault (T_PGFLT) di `trap.c` untuk menyalin halaman CoW saat proses melakukan penulisan.
+
+* Membuat tabel shared memory (`shmtab`) dan syscall `shmget()` serta `shmrelease()` di `sysproc.c`.
+
+* Registrasi syscall baru di `syscall.h`, `syscall.c`, `user.h`, dan `usys.S`.
+
+
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
-
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
+Program uji yang digunakan:
 * `cowtest`: untuk menguji fork dengan Copy-on-Write
 * `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
 
 ---
 
@@ -65,12 +67,6 @@ Child reads: A
 Parent reads: B
 ```
 
-### 📍 Contoh Output `chmodtest`:
-
-```
-Write blocked as expected
-```
-
 Jika ada screenshot:
 
 ```
@@ -81,17 +77,15 @@ Jika ada screenshot:
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
+* Kesalahan pada pengelolaan ref_count menyebabkan memori tidak dibebaskan → memory leak.
 
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+* Bug ketika pte tidak memiliki flag PTE_COW, sehingga page fault tidak tertangani dengan benar → proses terkill.
+
+* Alokasi memori shared memory gagal karena frame tidak dimapping secara tepat ke user space (USERTOP).
 
 ---
 
 ## 📚 Referensi
-
-Tuliskan sumber referensi yang Anda gunakan, misalnya:
 
 * Buku xv6 MIT: [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
 * Repositori xv6-public: [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
