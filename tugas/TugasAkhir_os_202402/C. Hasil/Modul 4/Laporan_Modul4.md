@@ -38,7 +38,7 @@ Modul ini mencakup pengembangan dua fitur subsistem kernel pada xv6:
 
 * Program uji: `chmodtest.c`
 
-** Device `/dev/random`**
+**Device `/dev/random`**
 * Menambahkan file `random.c` sebagai driver sederhana penghasil angka acak.
 
 * Registrasi device di `file.c` melalui `devsw[]` dengan major number `3`.
