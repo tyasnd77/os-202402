@@ -9,66 +9,67 @@
 **NIM**: 240202887
 
 **Modul yang Dikerjakan**:
-Modul 4-
+ Modul 4 – Subsistem Kernel Alternatif (xv6-public)
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
+Modul ini mencakup pengembangan dua fitur subsistem kernel pada xv6:
 
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+  1. System call `chmod(path, mode)` untuk mengatur mode file (`read-only`      atau `read-write`) secara sederhana.
+
+  2. Pseudo-device `/dev/random` yang menghasilkan byte acak ketika             dibaca, menyerupai fungsionalitas `/dev/random` di sistem UNIX/Linux.
+
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+* System Call `chmod(path, mode)` *
+* Menambahkan field `mode` pada `struct inode` di `fs.h` (bersifat volatile, hanya di memori).
 
-### Contoh untuk Modul 1:
+* Menambahkan syscall `chmod()` di:
 
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
+  * `sysfile.c` (`sys_chmod`)
+
+  * `syscall.h`, `syscall.c`, `user.h`, `usys.S`
+
+* Modifikasi `filewrite()` di `file.c` untuk mencegah penulisan ke file dengan mode `read-only`.
+
+* Program uji: `chmodtest.c`
+
+🔹 Device `/dev/random`
+Menambahkan file `random.c` sebagai driver sederhana penghasil angka acak.
+
+Registrasi device di `file.c` melalui `devsw[]` dengan major number `3`.
+
+Menambahkan entri `/dev/random` via `mknod()` di `init.c`.
+
+Program uji: `randomtest.c`
+
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
+Program uji yang digunakan:
 
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
+* `chmodtest`: menguji sistem file agar menolak penulisan ke file `read-only`
+
+* `randomtest`: membaca 8 byte acak dari `/dev/random`
 
 ---
 
 ## 📷 Hasil Uji
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
-
-### 📍 Contoh Output `cowtest`:
-
-```
-Child sees: Y
-Parent sees: X
-```
-
-### 📍 Contoh Output `shmtest`:
-
-```
-Child reads: A
-Parent reads: B
-```
-
 ### 📍 Contoh Output `chmodtest`:
 
 ```
 Write blocked as expected
+```
+### 📍 Contoh Output `randomtest`:
+
+```
+241 6 82 99 12 201 44 73
 ```
 
 Jika ada screenshot:
@@ -81,11 +82,11 @@ Jika ada screenshot:
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
+* Lupa memvalidasi `mode` pada `sys_chmod()` → bisa menyebabkan mode tidak valid diset.
 
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+* Salah index `devsw[]` menyebabkan `randomread()` tidak terhubung ke `/dev/random`.
+
+* Masalah pada `filewrite()` ketika pointer `f->ip` belum valid → sempat menyebabkan panic.
 
 ---
 
