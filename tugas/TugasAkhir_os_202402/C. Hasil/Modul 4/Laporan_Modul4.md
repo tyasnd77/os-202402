@@ -25,7 +25,7 @@ Modul ini mencakup pengembangan dua fitur subsistem kernel pada xv6:
 
 ## 🛠️ Rincian Implementasi
 
-* System Call `chmod(path, mode)` *
+**System Call `chmod(path, mode)`** 
 * Menambahkan field `mode` pada `struct inode` di `fs.h` (bersifat volatile, hanya di memori).
 
 * Menambahkan syscall `chmod()` di:
@@ -38,14 +38,14 @@ Modul ini mencakup pengembangan dua fitur subsistem kernel pada xv6:
 
 * Program uji: `chmodtest.c`
 
-🔹 Device `/dev/random`
-Menambahkan file `random.c` sebagai driver sederhana penghasil angka acak.
+** Device `/dev/random`**
+* Menambahkan file `random.c` sebagai driver sederhana penghasil angka acak.
 
-Registrasi device di `file.c` melalui `devsw[]` dengan major number `3`.
+* Registrasi device di `file.c` melalui `devsw[]` dengan major number `3`.
 
-Menambahkan entri `/dev/random` via `mknod()` di `init.c`.
+* Menambahkan entri `/dev/random` via `mknod()` di `init.c`.
 
-Program uji: `randomtest.c`
+* Program uji: `randomtest.c`
 
 ---
 
