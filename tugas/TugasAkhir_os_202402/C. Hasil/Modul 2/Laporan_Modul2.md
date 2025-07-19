@@ -35,11 +35,11 @@ Perubahan utama meliputi:
 
 * Implementasi syscall `set_priority(int)`:
 
-** Tambahkan nomor syscall (`syscall.h`)
+    * Tambahkan nomor syscall (`syscall.h`)
 
-** Deklarasi di `user.h`, `usys.S`
+    * Deklarasi di `user.h`, `usys.S`
 
-** Registrasi dan implementasi di `syscall.c` dan `sysproc.c`
+    * Registrasi dan implementasi di `syscall.c` dan `sysproc.c`
 
 * Ubah algoritma di fungsi `scheduler()` (`proc.c`) agar memilih proses `RUNNABLE` dengan prioritas tertinggi
 
