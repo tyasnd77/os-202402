@@ -59,8 +59,6 @@ hello
 Read Count Setelah: 13
 ```
 
-![Output ptest_rtest](./screenshots/output_ptest_rtest.png)
-
 
 ## ⚠️ Kendala yang Dihadapi
 
