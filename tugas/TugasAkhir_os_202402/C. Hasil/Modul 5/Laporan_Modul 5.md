@@ -9,67 +9,68 @@
 **NIM**: 240202887
 
 **Modul yang Dikerjakan**:
-Modul 5-
+Modul 5 – Audit dan Keamanan Sistem (xv6-public)
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
-
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+* **Modul 5 – Audit dan Keamanan Sistem**:
+Menambahkan mekanisme pencatatan semua system call ke dalam struktur audit log internal kernel. Hanya proses dengan PID 1 yang diizinkan membaca log menggunakan system call `get_audit_log()`.
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+* Menambahkan struktur `audit_entry` di `syscall.c`
 
-### Contoh untuk Modul 1:
+* Memodifikasi fungsi `syscall()` untuk mencatat setiap pemanggilan system call
 
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
+* Menambahkan system call baru `get_audit_log()`:
+
+    * Implementasi: `sysproc.c`
+
+    * Deklarasi: `user.h`, `syscall.h`, `defs.h`, `usys.S`
+
+* Menambahkan validasi agar hanya proses PID 1 yang bisa mengakses audit log
+
+* Menambahkan program uji `audit.c`
+
+* Menyesuaikan `Makefile` agar program `audit` dibangun otomatis
+
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
-
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
+* `audit`: untuk menguji system call `get_audit_log()` dan memastikan hanya bisa diakses oleh proses dengan PID 1.
 
 ---
 
 ## 📷 Hasil Uji
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
-
-```
-Child sees: Y
-Parent sees: X
-```
-
-### 📍 Contoh Output `shmtest`:
+### 📍 Contoh Output `audit` saat dijalankan sebagai PID 1:
 
 ```
-Child reads: A
-Parent reads: B
+=== Audit Log ===
+[0] PID=1 SYSCALL=7 TICK=2
+[1] PID=1 SYSCALL=15 TICK=6
+[2] PID=1 SYSCALL=17 TICK=7
+[3] PID=1 SYSCALL=15 TICK=10
+[4] PID=1 SYSCALL=10 TICK=10
+[5] PID=1 SYSCALL=10 TICK=10
+[6] PID=1 SYSCALL=7 TICK=10
+[7] PID=1 SYSCALL=22 TICK=12
+lapicid 0: panic: init exiting
+ 80103fd4 8010587b 80104be5 80105c70
+
 ```
 
-### 📍 Contoh Output `chmodtest`:
+### 📍 Contoh Output `audit` saat dijalankan oleh proses biasa:
 
 ```
-Write blocked as expected
+Access denied or error.
 ```
+
 
 Jika ada screenshot:
 
@@ -81,17 +82,15 @@ Jika ada screenshot:
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
+* Audit log tidak bisa diakses jika `audit` bukan dijalankan oleh PID 1 — perlu memodifikasi `init.c` untuk menjalankan `audit` secara langsung.
 
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+* Audit log tidak bersifat circular, jadi jika `audit_index` mencapai `MAX_AUDIT`, data baru tidak akan tercatat.
+
+* Tidak ada locking atau sinkronisasi untuk `audit_index` (potensi race condition jika digunakan di sistem multitasking nyata).
 
 ---
 
 ## 📚 Referensi
-
-Tuliskan sumber referensi yang Anda gunakan, misalnya:
 
 * Buku xv6 MIT: [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
 * Repositori xv6-public: [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
