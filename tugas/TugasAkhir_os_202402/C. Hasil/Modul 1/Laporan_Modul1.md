@@ -15,27 +15,27 @@ Modul 1 – System Call dan Instrumentasi Kernel
 
 ## 📌 Deskripsi Singkat Tugas
 * **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Pada modul ini, saya mengimplementasikan dua buah system call baru di sistem operasi xv6-public, yaitu:
-1.getpinfo(struct pinfo *ptable) — untuk mendapatkan informasi proses aktif di sistem (PID, ukuran memori, dan nama proses).
-2.getreadcount() — untuk menghitung total pemanggilan fungsi read() sejak sistem dijalankan (boot).
+  Pada modul ini, saya mengimplementasikan dua buah `system call` baru di sistem operasi xv6-public, yaitu:
+1.`getpinfo`(`struct pinfo *ptable`) — untuk mendapatkan informasi proses aktif di sistem (PID, ukuran memori, dan nama proses).
+2.`getreadcount()` — untuk menghitung total pemanggilan fungsi `read()` sejak sistem dijalankan (boot).
 Modul ini bertujuan untuk memahami bagaimana kernel mengelola sistem call dan melakukan instrumentasi aktivitas sistem secara manual.
 
 ## 🛠️ Rincian Implementasi
 
 Berikut adalah langkah-langkah implementasi yang dilakukan:
 
-* Implementasi dimulai dengan menambahkan struktur pinfo di proc.h untuk menyimpan informasi proses, serta variabel global readcount di sysproc.c untuk mencatat jumlah pemanggilan read(). Dua nomor syscall baru, SYS_getpinfo dan SYS_getreadcount, ditambahkan di syscall.h, lalu didaftarkan handler-nya di syscall.c, dan deklarasinya dimasukkan ke user.h dan usys.S.
+* Implementasi dimulai dengan menambahkan struktur `pinfo` di `proc.h` untuk menyimpan informasi proses, serta variabel global `readcount` di `sysproc.c` untuk mencatat jumlah pemanggilan `read()`. Dua nomor `syscall` baru, `SYS_getpinfo` dan `SYS_getreadcount`, ditambahkan di `syscall.h`, lalu didaftarkan handler-nya di `syscall.c`, dan deklarasinya dimasukkan ke `user.h` dan `usys.S`.
 
-* Fungsi sys_getpinfo mengambil data dari ptable dan menyalin ke user, sedangkan sys_getreadcount mengembalikan nilai readcount. Di fungsi sys_read() (sysfile.c), ditambahkan readcount++ untuk mencatat setiap pemanggilan read().
+* Fungsi `sys_getpinfo` mengambil data dari `ptable` dan menyalin ke `user`, sedangkan `sys_getreadcount` mengembalikan nilai `readcount`. Di fungsi `sys_read()` (`sysfile.c`), ditambahkan `readcount++` untuk mencatat setiap pemanggilan `read()`.
 
-* Untuk pengujian, dibuat program ptest.c (mengakses getpinfo()) dan rtest.c (mengakses getreadcount() sebelum dan sesudah read()). Keduanya ditambahkan ke Makefile agar bisa dijalankan di xv6.
+* Untuk pengujian, dibuat program `ptest.c` (mengakses `getpinfo()`) dan `rtest.c`(mengakses `getreadcount()` sebelum dan sesudah `read()`). Keduanya ditambahkan ke `Makefile` agar bisa dijalankan di xv6.
 
 ## ✅ Uji Fungsionalitas
 
-* Program ptest – Menguji getpinfo()
-Program ini memanggil getpinfo() dan mencetak daftar proses aktif di sistem. Data yang ditampilkan meliputi PID, ukuran memori, dan nama proses. Hasil pengujian menunjukkan informasi proses berhasil ditampilkan dengan benar.
-* Program rtest – Menguji getreadcount()
-Program ini memanggil getreadcount() sebelum dan sesudah fungsi read() dijalankan. Tujuannya untuk memverifikasi apakah counter readcount meningkat sesuai jumlah pemanggilan read(). Hasilnya, nilai readcount bertambah 1 setelah pemanggilan read(), menandakan counter bekerja dengan benar.
+* Program `ptest` – Menguji `getpinfo()`
+Program ini memanggil `getpinfo()` dan mencetak daftar proses aktif di sistem. Data yang ditampilkan meliputi PID, ukuran memori, dan nama proses. Hasil pengujian menunjukkan informasi proses berhasil ditampilkan dengan benar.
+* Program `rtest` – Menguji `getreadcount()`
+Program ini memanggil `getreadcount()` sebelum dan sesudah fungsi `read()` dijalankan. Tujuannya untuk memverifikasi apakah counter readcount meningkat sesuai jumlah pemanggilan `read()`. Hasilnya, nilai readcount bertambah 1 setelah pemanggilan `read()`, menandakan counter bekerja dengan benar.
 
 
 ## 📷 Hasil Uji
@@ -63,9 +63,9 @@ Read Count Setelah: 13
 
 ## ⚠️ Kendala yang Dihadapi
 
-* Variabel readcount tidak dikenali di sys_read() → disebabkan karena belum dideklarasikan sebagai global. Solusi: dipindah ke bagian global sysfile.c atau sysproc.c, dan bila perlu dideklarasikan extern.
+* Variabel `readcount` tidak dikenali di `sys_read()` → disebabkan karena belum dideklarasikan sebagai global. Solusi: dipindah ke bagian global `sysfile.c` atau `sysproc.c`, dan bila perlu dideklarasikan extern.
 
-* ptable tidak dikenali di sysproc.c → karena belum ditambahkan deklarasi extern struct ptable dari proc.c. Solusi: tambahkan extern di defs.h atau langsung di sysproc.c.
+* `ptable` tidak dikenali di `sysproc.c` → karena belum ditambahkan deklarasi extern struct ptable dari `proc.c`. Solusi: tambahkan extern di `defs.h` atau langsung di `sysproc.c`.
 
 * Typo dan pointer cast di argptr → perlu hati-hati dengan konversi (char**)&....
 
