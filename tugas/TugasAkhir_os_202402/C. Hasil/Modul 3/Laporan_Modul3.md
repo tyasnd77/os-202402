@@ -72,7 +72,6 @@ Parent reads: B
 ![hasil cowtest](./screenshots/cowtest.png)
 
 ![hasil shmtest](./screenshots/shmtest.png)
-```
 
 ---
 
