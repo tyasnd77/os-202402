@@ -72,11 +72,9 @@ Write blocked as expected
 241 6 82 99 12 201 44 73
 ```
 
-Jika ada screenshot:
+### 📸 Screenshot:
+![hasil chmotest dan randomtest](./screenshots/chmodtest_randomtest.png)
 
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
 
 ---
 
