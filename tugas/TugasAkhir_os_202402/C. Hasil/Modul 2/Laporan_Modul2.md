@@ -79,7 +79,8 @@ Parent selesai
 Jika ada screenshot:
 
 ```
-![hasil cowtest](./screenshots/cowtest_output.png)
+### 📸 Screenshot:
+![hasil ptest](./screenshots/Screenshot 2025-07-12 172712.png)
 ```
 
 ---
