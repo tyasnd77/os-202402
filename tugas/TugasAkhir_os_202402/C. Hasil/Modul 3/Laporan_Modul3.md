@@ -77,17 +77,17 @@ Parent reads: B
 
 ## ⚠️ Kendala yang Dihadapi
 
-* Kesalahan pada pengelolaan ref_count menyebabkan memori tidak dibebaskan → memory leak.
+* Kesalahan pada pengelolaan `ref_count` menyebabkan memori tidak dibebaskan → memory leak.
 
-* Bug ketika pte tidak memiliki flag PTE_COW, sehingga page fault tidak tertangani dengan benar → proses terkill.
+* Bug ketika pte tidak memiliki `flag PTE_COW`, sehingga page fault tidak tertangani dengan benar → proses terkill.
 
-* Alokasi memori shared memory gagal karena frame tidak dimapping secara tepat ke user space (USERTOP).
+* Alokasi memori shared memory gagal karena frame tidak dimapping secara tepat ke user space (`USERTOP`).
   
-* Struktur shmtab awalnya tidak disinkronisasi secara benar saat shmget() dipanggil beberapa kali → menyebabkan konflik alamat atau halaman yang tidak teralokasi.
+* Struktur shmtab awalnya tidak disinkronisasi secara benar saat `shmget()` dipanggil beberapa kali → menyebabkan konflik alamat atau halaman yang tidak teralokasi.
 
-* Penambahan #define PTE_COW 0x200 bisa berbenturan dengan bit flag lain jika PTE_FLAGS tidak diperbarui dengan benar → menyebabkan entri page table tidak dikenali sebagai valid oleh walkpgdir() atau mappages().
+* Penambahan `#define PTE_COW 0x200` bisa berbenturan dengan bit flag lain jika `PTE_FLAGS` tidak diperbarui dengan benar → menyebabkan entri page table tidak dikenali sebagai valid oleh `walkpgdir()` atau `mappages()`.
 
-* Makefile tidak diperbarui saat menambahkan file ps.c atau procstat.c, menyebabkan error undefined reference saat build.
+* `Makefile` tidak diperbarui saat menambahkan file `ps.c` atau `procstat.c`, menyebabkan error undefined reference saat build.
 
 ---
 
