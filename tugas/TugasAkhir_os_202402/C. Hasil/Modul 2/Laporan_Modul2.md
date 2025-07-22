@@ -79,8 +79,10 @@ Parent selesai
 Jika ada screenshot:
 
 ```
+
 ### 📸 Screenshot:
-![hasil ptest](./screenshots/Screenshot 2025-07-12 172712.png)
+![hasil ptest](./screenshots/ptest.png)
+
 ```
 
 ---
