@@ -89,7 +89,7 @@ Parent selesai
 
 * Salah validasi input pada `sys_set_priority()` (tidak membatasi nilai 0–100) → menyebabkan proses bisa diset ke prioritas negatif
   
-* Salah ketik &cpu->scheduler jadi &cpus->scheduler → menyebabkan crash
+* Salah ketik `&cpu->scheduler` jadi `&cpus->scheduler` → menyebabkan crash
 
 * Debug cukup lama untuk memastikan non-preemptive benar-benar berjalan (tidak ada context switch paksa)
 
