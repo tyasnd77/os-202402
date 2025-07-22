@@ -88,6 +88,8 @@ lapicid 0: panic: init exiting
 
 * Tidak ada locking atau sinkronisasi untuk `audit_index` (potensi race condition jika digunakan di sistem multitasking nyata).
 
+* Kernel panic akibat pointer `proc` bernilai NULL saat pencatatan log. Bug ini muncul ketika pencatatan `audit_log` dilakukan di bagian awal `syscall()` tanpa memastikan bahwa konteks proses (`proc`) sudah tersedia. Karena `proc` hanya valid saat proses user aktif, memanggil `proc->pid` atau field lain saat `proc == NULL` menyebabkan kernel crash. Solusinya: tambahkan validasi `if(proc)` sebelum mencatat log atau tempatkan logika hanya setelah `proc` dijamin terisi.
+
 ---
 
 ## 📚 Referensi
