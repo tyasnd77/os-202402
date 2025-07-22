@@ -76,9 +76,6 @@ Child 1 selesai
 Parent selesai
 ```
 
-Jika ada screenshot:
-
-```
 
 ### 📸 Screenshot:
 ![hasil ptest](./screenshots/ptest.png)
