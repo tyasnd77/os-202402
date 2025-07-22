@@ -87,6 +87,8 @@ Parent reads: B
 
 * Penambahan #define PTE_COW 0x200 bisa berbenturan dengan bit flag lain jika PTE_FLAGS tidak diperbarui dengan benar → menyebabkan entri page table tidak dikenali sebagai valid oleh walkpgdir() atau mappages().
 
+* Makefile tidak diperbarui saat menambahkan file ps.c atau procstat.c, menyebabkan error undefined reference saat build.
+
 ---
 
 ## 📚 Referensi
