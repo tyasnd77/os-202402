@@ -47,7 +47,14 @@ Menambahkan mekanisme pencatatan semua system call ke dalam struktur audit log i
 
 ## 📷 Hasil Uji
 
+### 📍 Contoh Output `audit` saat dijalankan oleh proses biasa:
+
+```
+Access denied or error.
+```
+
 ### 📍 Contoh Output `audit` saat dijalankan di PID 1:
+
 
 ```
 === Audit Log ===
@@ -61,24 +68,15 @@ Menambahkan mekanisme pencatatan semua system call ke dalam struktur audit log i
 [7] PID=1 SYSCALL=22 TICK=12
 lapicid 0: panic: init exiting
  80103fd4 8010587b 80104be5 80105c70
-
-
-
-```
-### 📍 Contoh Output `audit` saat dijalankan oleh :
-
-
-```
-Access denied or error.
 ```
 
 
 ### 📸 Screenshot:
 
-![hasil audit2](./screenshots/audit_output2.png)
-
-
 ![hasil audit1](./screenshots/audit_output1.png)
+
+
+![hasil audit2](./screenshots/audit_output2.png)
 
 ---
 
