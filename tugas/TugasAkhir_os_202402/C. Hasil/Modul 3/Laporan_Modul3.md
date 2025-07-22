@@ -67,10 +67,11 @@ Child reads: A
 Parent reads: B
 ```
 
-Jika ada screenshot:
+### 📸 Screenshot:
 
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
+![hasil cowtest](./screenshots/cowtest.png)
+
+![hasil shmtest](./screenshots/shmtest.png)
 ```
 
 ---
