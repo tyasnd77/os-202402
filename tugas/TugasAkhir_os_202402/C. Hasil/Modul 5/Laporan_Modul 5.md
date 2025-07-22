@@ -72,11 +72,12 @@ Access denied or error.
 ```
 
 
-Jika ada screenshot:
+### 📸 Screenshot:
 
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
+![hasil audit2](./screenshots/audit_output2.png)
+
+
+![hasil audit1](./screenshots/audit_output1.png)
 
 ---
 
