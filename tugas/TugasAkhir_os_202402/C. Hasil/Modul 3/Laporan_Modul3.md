@@ -82,6 +82,10 @@ Parent reads: B
 * Bug ketika pte tidak memiliki flag PTE_COW, sehingga page fault tidak tertangani dengan benar → proses terkill.
 
 * Alokasi memori shared memory gagal karena frame tidak dimapping secara tepat ke user space (USERTOP).
+  
+* Struktur shmtab awalnya tidak disinkronisasi secara benar saat shmget() dipanggil beberapa kali → menyebabkan konflik alamat atau halaman yang tidak teralokasi.
+
+* Penambahan #define PTE_COW 0x200 bisa berbenturan dengan bit flag lain jika PTE_FLAGS tidak diperbarui dengan benar → menyebabkan entri page table tidak dikenali sebagai valid oleh walkpgdir() atau mappages().
 
 ---
 
