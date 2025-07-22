@@ -58,7 +58,8 @@ Read Count Sebelum: 12
 hello
 Read Count Setelah: 13
 ```
-
+### 📸 Screenshot:
+![hasil ptest dan rtest](./screenshots/ptest_rtest_hello-outout.png)
 
 ## ⚠️ Kendala yang Dihadapi
 
